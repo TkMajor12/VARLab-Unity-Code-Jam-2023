@@ -5,8 +5,11 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Values")]
-    [SerializeField] private float moveSpeed = 15f;
+    [SerializeField] protected float moveSpeed = 15f;
+    [SerializeField] protected float jumpForce = 5f;
+    [SerializeField] protected float gravityScale = 1f;
 
+    [Header("Inputs")]
     [SerializeField] protected string HorizontalInput = "Horizontal";
     [SerializeField] protected string VerticalInput = "Vertical";
     [SerializeField] protected string JumpInput = "Jump";
@@ -25,12 +28,19 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Jump();
+        }
+
+        HandleMovement(CalculateMovementVector());
+    }
+
     private void FixedUpdate()
     {
-
-        var movementVector = CalculateMovementVector();
-
-        HandleMovement(movementVector);
+        rigidbody.AddForce(Physics.gravity * (gravityScale - 1) * rigidbody.mass);
     }
 
 
@@ -55,7 +65,12 @@ public class PlayerMovement : MonoBehaviour
     {
         // Y-axis velocity is always preserved
         velocity.y = rigidbody.velocity.y;
-
         rigidbody.velocity = velocity;
+    }
+    
+    protected virtual void Jump()
+    {
+        rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+        Debug.Log("Jumping");
     }
 }
