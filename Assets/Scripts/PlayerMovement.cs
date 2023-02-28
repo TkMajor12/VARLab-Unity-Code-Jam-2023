@@ -13,13 +13,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] protected string SprintInput = "Sprint";
 
     protected new Rigidbody rigidbody;
-    protected new BoxCollider collider;
+    protected new CapsuleCollider collider;
 
     // Start is called before the first frame update
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-        collider = GetComponent<BoxCollider>();
+        collider = GetComponent<CapsuleCollider>();
 
         rigidbody.freezeRotation = true;
     }
