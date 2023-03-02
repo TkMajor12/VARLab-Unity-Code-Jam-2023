@@ -8,7 +8,7 @@ public class GameTimer : MonoBehaviour
 {
     [SerializeField, Range(0, 60)] private int minutes;
     [SerializeField, Range(0, 60)] private int seconds;
-    [SerializeField] private TMP_Text clock;
+    public TMP_Text clock;
 
     // Start is called before the first frame update
     void Start()
