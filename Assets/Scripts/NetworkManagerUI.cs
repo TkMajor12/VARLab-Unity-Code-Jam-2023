@@ -18,8 +18,18 @@ public class NetworkManagerUI : MonoBehaviour
     [SerializeField] private Button clientBtn;
 
     // Start is called before the first frame update
-    private void Awake()
+    private async void Awake()
     {
+
+        await UnityServices.InitializeAsync();
+
+        AuthenticationService.Instance.SignedIn += () =>
+        {
+            Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
+        };
+
+        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
         serverBtn.onClick.AddListener(() => 
         {
             NetworkManager.Singleton.StartServer();
