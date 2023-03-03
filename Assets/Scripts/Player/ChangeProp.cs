@@ -14,21 +14,18 @@ public class ChangeProp : MonoBehaviour
     {
         RaycastHit hit;
         Ray changeProp = new Ray(transform.position, transform.forward);
-
         // Send raycast
+
         if(Physics.Raycast(changeProp, out hit, activateDistance))
         {
+            Debug.Log(hit.transform.gameObject.tag);
             if (Input.GetKeyDown(KeyCode.E) && hit.collider.tag == "AllowedProp")
             {
-
-                
                 Mesh mesh = hit.collider.gameObject.GetComponent<MeshFilter>().mesh;
                 Debug.Log(mesh.name);
                 // Update mesh
-                if (mesh != null)
-                {
-                    meshFilter.mesh = mesh;
-                }
+
+                meshFilter.mesh = mesh;
 
                 // Change material
                 meshRenderer.material = hit.collider.gameObject.GetComponent<MeshRenderer>().material;

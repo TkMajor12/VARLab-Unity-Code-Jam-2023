@@ -37,16 +37,10 @@ public class PlayerMovement : NetworkBehaviour
         if(IsOwner) 
         {
             rigidbody.gameObject.tag = "Seeker";
-            
-            Debug.Log(rigidbody.gameObject.tag);
-
-            rigidbody.gameObject.GetComponent<ChangeProp>().enabled = false;
         }
         else 
         {
             rigidbody.gameObject.tag = "Hider";
-            Debug.Log(rigidbody.gameObject.tag);
-            rigidbody.gameObject.GetComponent<CheckWin>().enabled = false;
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
