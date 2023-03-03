@@ -34,11 +34,19 @@ public class PlayerMovement : NetworkBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if(!IsOwner) return;
-
-        if(Input.GetKeyDown(KeyCode.T))
+        if(IsOwner) 
         {
-            randomNumber.Value = Random.Range(0, 100);
+            rigidbody.gameObject.tag = "Seeker";
+            
+            Debug.Log(rigidbody.gameObject.tag);
+
+            rigidbody.gameObject.GetComponent<ChangeProp>().enabled = false;
+        }
+        else 
+        {
+            rigidbody.gameObject.tag = "Hider";
+            Debug.Log(rigidbody.gameObject.tag);
+            rigidbody.gameObject.GetComponent<CheckWin>().enabled = false;
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
