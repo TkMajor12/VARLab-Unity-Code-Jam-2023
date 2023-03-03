@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
+    private NetworkVariable<int> randomNumber = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
     [Header("Movement Values")]
     [SerializeField] protected float moveSpeed = 15f;
     [SerializeField] protected float jumpForce = 5f;
@@ -30,6 +33,13 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if(!IsOwner) return;
+
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            randomNumber.Value = Random.Range(0, 100);
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
@@ -72,5 +82,13 @@ public class PlayerMovement : MonoBehaviour
     {
         rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
         Debug.Log("Jumping");
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        randomNumber.OnValueChanged += (int prevValue, int newVal) => 
+        {
+            Debug.Log(OwnerClientId + " Value: " + randomNumber.Value);
+        };
     }
 }
