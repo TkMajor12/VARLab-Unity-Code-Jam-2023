@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerMovement : NetworkBehaviour
 {
+    public Camera cam;
+
     private NetworkVariable<int> randomNumber = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     [Header("Movement Values")]
@@ -26,7 +28,6 @@ public class PlayerMovement : NetworkBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
-
         rigidbody.freezeRotation = true;
     }
 
@@ -43,6 +44,15 @@ public class PlayerMovement : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
+        }
+
+        cam = this.GetComponentInChildren<Camera>();
+        cam.enabled = false;
+
+        if(IsLocalPlayer)
+        {
+            cam.enabled = true;
+            Debug.Log("IsLocalPlayer");
         }
 
         HandleMovement(CalculateMovementVector());
