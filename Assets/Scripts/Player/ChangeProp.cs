@@ -20,8 +20,10 @@ public class ChangeProp : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E) && hit.collider.tag == "AllowedProp")
             {
-                Mesh mesh = hit.collider.gameObject.GetComponent<MeshFilter>().mesh;
 
+                
+                Mesh mesh = hit.collider.gameObject.GetComponent<MeshFilter>().mesh;
+                Debug.Log(mesh.name);
                 // Update mesh
                 if (mesh != null)
                 {
